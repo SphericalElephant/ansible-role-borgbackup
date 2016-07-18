@@ -18,7 +18,7 @@ Example Playbook
 
     - hosts: all
       roles:
-        - role: SphericalElephant.ansible
+        - role: SphericalElephant.borgbackup
           borgbackup_client: True
           borgbackup_client_backup_server: backup01.example.com
           borgbackup_client_jobs:
