@@ -1,0 +1,20 @@
+---
+
+- name: enable backports
+  apt_repository:
+    repo: "deb http://cdn.debian.net/debian {{ ansible_distribution_release }}-backports main contrib non-free"
+    state: present
+  when: ansible_distribution_release == "jessie"
+
+- name: install borgbackup
+  apt:
+    name: borgbackup
+    default_release: "{{ ansible_distribution_release }}-backports"
+    state: present
+  when: ansible_distribution_release == "jessie"
+
+- name: install borgbackup
+  apt:
+    name: borgbackup
+    state: present
+  when: ansible_distribution_release != "jessie"

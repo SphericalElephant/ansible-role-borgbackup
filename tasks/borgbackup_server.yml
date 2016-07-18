@@ -1,0 +1,34 @@
+---
+
+- name: manage group
+  group:
+    name: "{{ borgbackup_server_group }}"
+    state: present
+
+- name: manage user
+  user:
+    name: "{{ borgbackup_server_user }}"
+    group: "{{ borgbackup_server_group }}"
+    home: "{{ borgbackup_server_home }}"
+    createhome: yes
+    state: present
+
+- name: manage permissions
+  file:
+    path: "{{ item }}"
+    owner: "{{ borgbackup_server_user }}"
+    group: "{{ borgbackup_server_group }}"
+    mode: 0700
+    state: directory
+  with_items:
+    - "{{ borgbackup_server_home }}"
+    - "{{ borgbackup_server_home }}/.ssh"
+    - "{{ borgbackup_server_pool }}"
+
+- name: manage permissions for authorized_keys
+  file:
+    path: "{{ borgbackup_server_home }}/.ssh/authorized_keys"
+    owner: "{{ borgbackup_server_user }}"
+    group: "{{ borgbackup_server_group }}"
+    mode: 0600
+    state: touch

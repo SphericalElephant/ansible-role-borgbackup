@@ -1,0 +1,24 @@
+---
+borgbackup: True
+
+borgbackup_client: False
+borgbackup_client_ssh_key_file: "/root/.ssh/id_rsa-backup"
+borgbackup_client_scripts_dir: "/etc/borg"
+#borgbackup_client_backup_server: backup01.example.com
+#borgbackup_client_jobs:
+#  - name: system
+#    backup_repository: "system"
+#    options: "--compression zlib,6"
+#    day: "*"
+#    hour: "{{ 6 | random }}"
+#    minute: "{{ 59 | random }}"
+#    directories:
+#      - "/etc/"
+#      - "/home"
+#    excludes: []
+
+borgbackup_server: False
+borgbackup_server_user: "borgbackup"
+borgbackup_server_group: "borgbackup"
+borgbackup_server_home: "/srv/borgbackup"
+borgbackup_server_pool: "{{ borgbackup_server_home }}/repos"
