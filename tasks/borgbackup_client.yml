@@ -39,7 +39,7 @@
 
 # TODO: the failed_when is not optimal and the task might need to run twice under certain circumstances
 - name: initialize repositories
-  command: "/usr/bin/borg init --encryption none {{ borgbackup_server_user }}@{{ borgbackup_client_backup_server }}:{{ item.name }}"
+  command: "/usr/bin/borg init --encryption {{ borgbackup_encryption_mode }} {{ borgbackup_server_user }}@{{ borgbackup_client_backup_server }}:{{ item.name }}"
   environment:
     - BORG_RSH: "ssh -o StrictHostKeyChecking=no -i {{ borgbackup_client_ssh_key_file }}"
   with_items: "{{ borgbackup_client_jobs }}"

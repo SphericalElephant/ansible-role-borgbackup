@@ -11,6 +11,7 @@ borgbackup_binary: "/usr/local/bin/borg"
 borgbackup_client: False
 borgbackup_client_ssh_key_file: "/root/.ssh/id_rsa-backup"
 borgbackup_client_scripts_dir: "/etc/borg"
+borgbackup_encryption_mode: "none"
 #borgbackup_client_backup_server: backup01.example.com
 #borgbackup_client_jobs:
 #  - name: system
