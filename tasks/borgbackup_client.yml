@@ -9,7 +9,7 @@
 
 - name: fetch backup ssh-pubkey
   command: "cat {{ borgbackup_client_ssh_key_file }}.pub"
-  always_run: yes
+  check_mode: no
   register: borgbackup_client_ssh_pubkey_file
   changed_when: False
 
