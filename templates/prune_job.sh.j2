@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Server-side script to prune an entire repository
+
+set -e
+
+REPOSITORY={{ borgbackup_server_home }}:{{ item.name }}
+
+borg prune \
+  {{ item.prune_options }} \
+  $REPOSITORY
