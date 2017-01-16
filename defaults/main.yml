@@ -30,14 +30,14 @@ borgbackup_server_group: "borgbackup"
 borgbackup_server_home: "/srv/borgbackup"
 borgbackup_server_pool: "{{ borgbackup_server_home }}/repos"
 
-borgbackup_server_scripts_dir: "/etc/borg"
+borgbackup_prune_enabled: yes
 borgbackup_prune_jobs:
   - name: system
     prune_options: "--keep-daily=7 --keep-weekly=4"
     day: "*"
     hour: "{{ 4 }}"
     minute: "{{ 0 }}"
-  - name: home_folders
+  - name: scripts
     prune_options: "--keep-within=10d"
     day: "*"
     hour: "{{ 4 }}"

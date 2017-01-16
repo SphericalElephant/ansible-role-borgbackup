@@ -65,3 +65,25 @@
     minute: "{{ item.minute | default('0') }}"
     state: present
   with_items: "{{ borgbackup_client_jobs }}"
+
+- name: deploy prune scripts
+  template:
+    dest: "{{ borgbackup_client_scripts_dir }}/prune_{{ item.name }}.sh"
+    src: prune_job.sh.j2
+    owner: root
+    group: root
+    mode: 0700
+  with_items: "{{ borgbackup_prune_jobs }}"
+  when: borgbackup_prune_enabled
+
+- name: schedule prune scripts on cron
+  cron:
+    name: "borg prune {{ item.name }}"
+    user: root
+    job: "{{ borgbackup_client_scripts_dir }}/prune_{{ item.name }}.sh"
+    day: "{{ item.day | default('*') }}"
+    hour: "{{ item.hour | default('1') }}"
+    minute: "{{ item.minute | default('0') }}"
+    state: present
+  with_items: "{{ borgbackup_client_jobs }}"
+  when: borgbackup_prune_enabled
