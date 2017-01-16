@@ -23,7 +23,6 @@ Example Playbook
           borgbackup_client_backup_server: backup01.example.com
           borgbackup_client_jobs:
             - name: system
-              backup_repository: "system"
               day: "*"
               hour: "0"
               minute: "{{ 59 | random }}"

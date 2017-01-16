@@ -4,7 +4,7 @@ set -e
 
 export BORG_RSH="ssh -i {{ borgbackup_client_ssh_key_file }}"
 
-REPOSITORY={{ borgbackup_server_user }}@{{ borgbackup_client_backup_server }}:{{ item.backup_repository }}
+REPOSITORY={{ borgbackup_server_user }}@{{ borgbackup_client_backup_server }}:{{ item.name }}
 
 borg create \
   {{ item.options | default('--compression zlib,6') }} \

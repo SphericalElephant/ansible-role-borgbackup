@@ -7,7 +7,6 @@ borgbackup_client_scripts_dir: "/etc/borg"
 #borgbackup_client_backup_server: backup01.example.com
 #borgbackup_client_jobs:
 #  - name: system
-#    backup_repository: "system"
 #    options: "--compression zlib,6"
 #    day: "*"
 #    hour: "{{ 6 | random }}"
