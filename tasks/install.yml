@@ -1,0 +1,13 @@
+---
+- assert:
+    that:
+      - (borgbackup_install_from_binary and borgbackup_install_from_repo) == false
+      - (borgbackup_install_from_binary or borgbackup_install_from_repo) == true
+    msg:
+      - Please choose only one installation method
+
+- include: install_debian.yml
+  when: ansible_os_family == "Debian" and borgbackup_install_from_repo
+
+- include: install_binary.yml
+  when: borgbackup_install_from_binary

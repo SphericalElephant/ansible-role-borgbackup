@@ -1,0 +1,4 @@
+---
+
+- name: Download borg binary
+  get_url: url="{{ borgbackup_binary_uri }}" dest="{{ borgbackup_binary }}" mode=755

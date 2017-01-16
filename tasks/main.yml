@@ -1,16 +1,15 @@
 ---
 
-- include: borgbackup.yml
-  when: borgbackup
-  tags: borgbackup
+- include: install.yml
+  tags: install
 
 - include: borgbackup_server.yml
-  when: borgbackup_server and borgbackup
+  when: borgbackup_server
   tags: borgbackup
 
 - include: borgbackup_client.yml
-  when: borgbackup_client and borgbackup
+  when: borgbackup_client
   tags: borgbackup
 
-- debug: msg="Wether borgbackup_server nor borgbackup_client is enabled for this host"
+- debug: msg="Neither borgbackup_server nor borgbackup_client is enabled for this host"
   when: borgbackup_server == False and borgbackup_client == False
