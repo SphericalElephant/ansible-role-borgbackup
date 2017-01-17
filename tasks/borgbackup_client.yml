@@ -37,7 +37,27 @@
     mode: 0750
     state: directory
 
-# TODO: the failed_when is not optimal and the task might need to run twice under certain circumstances
+- name: check if the repositories already exist
+  command: "{{ borgbackup_binary }} list {{ borgbackup_server_user }}@{{ borgbackup_client_backup_server }}:{{ item.name }}"
+  environment:
+    - BORG_RSH: "ssh -o StrictHostKeyChecking=no -i {{ borgbackup_client_ssh_key_file }}"
+    - BORG_PASSPHRASE: "{{ borgbackup_passphrase }}"
+  with_items: "{{ borgbackup_client_jobs }}"
+  register: list_repos
+  failed_when: False
+  changed_when: False
+  check_mode: no
+
+- name: initialize empty list of initialized repositories
+  set_fact:
+    initialized_repos: []
+
+- name: store only initialized repositories in the list
+  set_fact:
+    initialized_repos: "{{ initialized_repos }} + [ '{{ item.item.name }}' ]"
+  with_items: "{{ list_repos.results }}"
+  when: item.rc == 0
+
 - name: initialize repositories
   command: "{{ borgbackup_binary }} init --encryption {{ borgbackup_encryption_mode }} {{ borgbackup_server_user }}@{{ borgbackup_client_backup_server }}:{{ item.name }}"
   environment:
@@ -45,7 +65,8 @@
     - BORG_PASSPHRASE: "{{ borgbackup_passphrase }}"
   with_items: "{{ borgbackup_client_jobs }}"
   register: borgbackup_initialize_result
-  failed_when: (borgbackup_initialize_result.stderr != "") and ('already exists' not in borgbackup_initialize_result.stderr)
+  failed_when: (borgbackup_initialize_result.rc != 0) and (borgbackup_initialize_result.stderr != "") and ('already exists' not in borgbackup_initialize_result.stderr)
+  when: item.name not in initialized_repos
 
 - name: backup scripts
   template:
