@@ -18,7 +18,7 @@
   authorized_key:
     user: "{{ borgbackup_server_user }}"
     key: "{{ borgbackup_client_ssh_pubkey_file.stdout }}"
-    key_options: 'command="cd {{ borgbackup_server_pool }}/{{ inventory_hostname }};borg serve --restrict-to-path {{ borgbackup_server_pool }}/{{ inventory_hostname }}",no-port-forwarding,no-X11-forwarding,no-pty,no-agent-forwarding,no-user-rc'
+    key_options: 'command="export BORG_PASSPHRASE={{ borgbackup_passphrase }}; cd {{ borgbackup_server_pool }}/{{ inventory_hostname }};borg serve --restrict-to-path {{ borgbackup_server_pool }}/{{ inventory_hostname }}",no-port-forwarding,no-X11-forwarding,no-pty,no-agent-forwarding,no-user-rc'
 
 - name: create repo path for host
   delegate_to: "{{ borgbackup_client_backup_server }}"
@@ -42,6 +42,7 @@
   command: "{{ borgbackup_binary }} init --encryption {{ borgbackup_encryption_mode }} {{ borgbackup_server_user }}@{{ borgbackup_client_backup_server }}:{{ item.name }}"
   environment:
     - BORG_RSH: "ssh -o StrictHostKeyChecking=no -i {{ borgbackup_client_ssh_key_file }}"
+    - BORG_PASSPHRASE: "{{ borgbackup_passphrase }}"
   with_items: "{{ borgbackup_client_jobs }}"
   register: borgbackup_initialize_result
   failed_when: (borgbackup_initialize_result.stderr != "") and ('already exists' not in borgbackup_initialize_result.stderr)
