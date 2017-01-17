@@ -64,6 +64,7 @@
     hour: "{{ item.hour | default('1') }}"
     minute: "{{ item.minute | default('0') }}"
     state: present
+    cron_file: "borgbackup_backup"
   with_items: "{{ borgbackup_client_jobs }}"
 
 - name: deploy prune scripts
@@ -85,5 +86,6 @@
     hour: "{{ item.hour | default('1') }}"
     minute: "{{ item.minute | default('0') }}"
     state: present
+    cron_file: "borgbackup_prune"
   with_items: "{{ borgbackup_client_jobs }}"
   when: borgbackup_prune_enabled
