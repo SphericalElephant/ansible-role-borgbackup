@@ -81,7 +81,7 @@
   cron:
     name: "borg backup {{ item.name }}"
     user: root
-    job: "{{ borgbackup_client_scripts_dir }}/{{ item.name }}.sh"
+    job: "{{ borgbackup_client_scripts_dir }}/{{ item.name }}.sh 2>&1 | /usr/bin/logger -t borgbackup"
     day: "{{ item.day | default('*') }}"
     hour: "{{ item.hour | default('1') }}"
     minute: "{{ item.minute | default('0') }}"
@@ -103,7 +103,7 @@
   cron:
     name: "borg prune {{ item.name }}"
     user: root
-    job: "{{ borgbackup_client_scripts_dir }}/prune_{{ item.name }}.sh"
+    job: "{{ borgbackup_client_scripts_dir }}/prune_{{ item.name }}.sh 2>&1 | /usr/bin/logger -t borgbackup"
     day: "{{ item.day | default('*') }}"
     hour: "{{ item.hour | default('1') }}"
     minute: "{{ item.minute | default('0') }}"
