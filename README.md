@@ -1,12 +1,13 @@
 Borgbackup
 ==========
 
-Ansible [Borgbackup](https://borgbackup.readthedocs.io/en/stable/) role
+Ansible [Borgbackup](https://borgbackup.readthedocs.io/en/stable/) role.
 
-Requirements
-------------
-
-* Debian Jessie or newer
+Features:
+ * Repository or binary installation
+ * Schedules regular backup jobs
+ * Schedules regular prune jobs to keep backup windows clean
+ * Flexible configuration to list backup targets
 
 Role Variables
 --------------
@@ -23,7 +24,6 @@ Example Playbook
           borgbackup_client_backup_server: backup01.example.com
           borgbackup_client_jobs:
             - name: system
-              backup_repository: "system"
               day: "*"
               hour: "0"
               minute: "{{ 59 | random }}"
@@ -34,6 +34,17 @@ Example Playbook
               excludes:
                 - 're:^/var/lib/apt'
                 - 're:^/var/[^/]+\/cache/'
+          borgbackup_prune_jobs:
+            - name: system
+              prune_options: "--keep-daily=7 --keep-weekly=4"
+              day: "*"
+              hour: "8"
+              minute: "0"
+
+You can easily assign client and server attributes from your inventory with something similar to the following:
+
+    borgbackup_client: "{{ (inventory_hostname in groups.borgbackup_server)|ternary(False, True) }}"
+    borgbackup_client_backup_server: "{{ groups.borgbackup_server[0] }}"
 
 License
 -------

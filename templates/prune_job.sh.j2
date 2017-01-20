@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+export BORG_RSH="ssh -i {{ borgbackup_client_ssh_key_file }}"
+export BORG_PASSPHRASE="{{ borgbackup_passphrase }}"
+
+REPOSITORY={{ borgbackup_server_user }}@{{ borgbackup_client_backup_server }}:{{ item.name }}
+
+{{ borgbackup_binary }} prune \
+  {{ item.prune_options }} \
+  $REPOSITORY

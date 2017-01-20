@@ -1,11 +1,11 @@
 ---
 
-- name: manage group
+- name: create group for borg
   group:
     name: "{{ borgbackup_server_group }}"
     state: present
 
-- name: manage user
+- name: create user for borg
   user:
     name: "{{ borgbackup_server_user }}"
     group: "{{ borgbackup_server_group }}"

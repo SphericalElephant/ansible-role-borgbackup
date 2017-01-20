@@ -1,13 +1,21 @@
 ---
-borgbackup: True
+
+borgbackup_install_from_binary: True
+borgbackup_install_from_repo: False
+
+borgbackup_binary_version: "1.0.9"
+borgbackup_binary_platform: "borg-linux64"
+borgbackup_binary_uri: "https://github.com/borgbackup/borg/releases/download/{{ borgbackup_binary_version }}/{{ borgbackup_binary_platform }}"
+borgbackup_binary: "/usr/local/bin/borg"
 
 borgbackup_client: False
 borgbackup_client_ssh_key_file: "/root/.ssh/id_rsa-backup"
 borgbackup_client_scripts_dir: "/etc/borg"
+borgbackup_encryption_mode: "none"
+borgbackup_passphrase: "yoursecret"
 #borgbackup_client_backup_server: backup01.example.com
 #borgbackup_client_jobs:
 #  - name: system
-#    backup_repository: "system"
 #    options: "--compression zlib,6"
 #    day: "*"
 #    hour: "{{ 6 | random }}"
@@ -22,3 +30,16 @@ borgbackup_server_user: "borgbackup"
 borgbackup_server_group: "borgbackup"
 borgbackup_server_home: "/srv/borgbackup"
 borgbackup_server_pool: "{{ borgbackup_server_home }}/repos"
+
+borgbackup_prune_enabled: yes
+borgbackup_prune_jobs:
+  - name: system
+    prune_options: "--keep-daily=7 --keep-weekly=4"
+    day: "*"
+    hour: "{{ 4 }}"
+    minute: "{{ 0 }}"
+  - name: scripts
+    prune_options: "--keep-within=10d"
+    day: "*"
+    hour: "{{ 4 }}"
+    minute: "{{ 0 }}"
