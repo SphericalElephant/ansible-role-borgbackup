@@ -9,5 +9,8 @@
 - include: install_debian.yml
   when: ansible_os_family == "Debian" and borgbackup_install_from_repo
 
+- include: install_arch.yml
+  when: ansible_os_family == "Archlinux" and borgbackup_install_from_repo
+
 - include: install_binary.yml
   when: borgbackup_install_from_binary
