@@ -13,6 +13,7 @@ galaxy_info:
     - jessie
     - sid
     - stretch
+  - name: Archlinux
   galaxy_tags:
   - backup
 

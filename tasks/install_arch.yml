@@ -1,0 +1,19 @@
+---
+
+- name: install borgbackup
+  pacman:
+    name: borg
+    state: present
+
+- name: Install cron
+  pacman:
+    name: cronie
+    state: present
+
+- name: Enable cron with systemd
+  systemd:
+    daemon_reload: yes
+    service: cronie
+    enabled: yes
+    state: started
+
