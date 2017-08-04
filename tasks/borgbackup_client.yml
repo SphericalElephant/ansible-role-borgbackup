@@ -28,7 +28,7 @@
   authorized_key:
     user: "{{ borgbackup_server_user }}"
     key: "{{ borgbackup_client_ssh_pubkey_file.stdout }}"
-    key_options: 'command="export BORG_PASSPHRASE={{ borgbackup_passphrase }}; cd {{ borgbackup_server_pool }}/{{ inventory_hostname }};borg serve --restrict-to-path {{ borgbackup_server_pool }}/{{ inventory_hostname }}",no-port-forwarding,no-X11-forwarding,no-pty,no-agent-forwarding,no-user-rc'
+    key_options: 'command="cd {{ borgbackup_server_pool }}/{{ inventory_hostname }};borg serve --restrict-to-path {{ borgbackup_server_pool }}/{{ inventory_hostname }}",no-port-forwarding,no-X11-forwarding,no-pty,no-agent-forwarding,no-user-rc'
 
 - name: create repo path for host
   delegate_to: "{{ borgbackup_client_backup_server }}"
