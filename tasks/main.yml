@@ -1,7 +1,7 @@
 ---
 
 - include: install.yml
-  tags: install
+  tags: ['install', 'borgbackup']
 
 - include: borgbackup_server.yml
   when: borgbackup_server
@@ -13,3 +13,4 @@
 
 - debug: msg="Neither borgbackup_server nor borgbackup_client is enabled for this host"
   when: borgbackup_server == False and borgbackup_client == False
+  tags: borgbackup
