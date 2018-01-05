@@ -18,3 +18,7 @@
     name: borgbackup
     state: present
   when: ansible_distribution_release != "jessie"
+
+- name: Configure borg binary location based on installed version
+  set_fact:
+    borgbackup_binary: "/usr/bin/borg"
