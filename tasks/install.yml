@@ -3,7 +3,7 @@
     that:
       - (borgbackup_install_from_binary and borgbackup_install_from_repo) == false
       - (borgbackup_install_from_binary or borgbackup_install_from_repo) == true
-    msg:
+    msg: >
       - Please choose only one installation method
 
 - include: install_debian.yml
